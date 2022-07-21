@@ -1,5 +1,6 @@
 {
   "name": "cdktf-provider-cdk8s",
+  "description": "A compatability layer for using cdk8s constructs within Terraform CDK.",
   "repository": {
     "type": "git",
     "url": "https://github.com/huaxk/cdktf-provider-cdk8s.git"
@@ -14,6 +15,7 @@
     "docgen": "npx projen docgen",
     "eject": "npx projen eject",
     "eslint": "npx projen eslint",
+    "import": "npx projen import",
     "package": "npx projen package",
     "package-all": "npx projen package-all",
     "package:js": "npx projen package:js",
@@ -35,12 +37,15 @@
     "organization": false
   },
   "devDependencies": {
+    "@cdktf/provider-kubernetes": "0.6.0",
     "@types/jest": "^27",
     "@types/node": "^14",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
-    "cdktf": "0.8.3",
-    "constructs": "10.0.12",
+    "cdk8s": "2.1.6",
+    "cdk8s-cli": "^2.0.57",
+    "cdktf": "0.9.0",
+    "constructs": "10.0.25",
     "eslint": "^8",
     "eslint-import-resolver-node": "^0.3.6",
     "eslint-import-resolver-typescript": "^3.3.0",
@@ -52,7 +57,7 @@
     "jsii-docgen": "^7.0.56",
     "jsii-pacmak": "^1.62.0",
     "json-schema": "^0.4.0",
-    "npm-check-updates": "^12",
+    "npm-check-updates": "^15",
     "projen": "^0.59.4",
     "standard-version": "^9",
     "ts-jest": "^27",
@@ -60,17 +65,25 @@
     "typescript": "^4.7.4"
   },
   "peerDependencies": {
-    "cdktf": "^0.8.3",
-    "constructs": "^10.0.12"
+    "@cdktf/provider-kubernetes": ">=0.6.0",
+    "cdk8s": ">=2.1.6",
+    "cdktf": "^0.9.0",
+    "constructs": "^10.0.25"
+  },
+  "dependencies": {
+    "yaml": "1.10.2"
   },
   "keywords": [
     "cdk",
     "cdktf"
   ],
   "main": "lib/index.js",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "version": "0.0.0",
   "jest": {
+    "coveragePathIgnorePatterns": [
+      "test/imports"
+    ],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.ts?(x)",
       "<rootDir>/(test|src)/**/*(*.)@(spec|test).ts?(x)"
@@ -85,9 +98,6 @@
       "text"
     ],
     "coverageDirectory": "coverage",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ],
     "testPathIgnorePatterns": [
       "/node_modules/"
     ],
