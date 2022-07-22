@@ -1,6 +1,7 @@
 # CDKTF CDK8s
 
 A compatability layer for using cdk8s constructs within Terraform CDK.
+Modified from <https://github.com/DanielMSchmidt/cdktf-cdk8s>.
 
 ## Usage
 

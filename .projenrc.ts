@@ -10,7 +10,7 @@ const project = new cdktf.ConstructLibraryCdktf({
   projenrcTs: true,
   repositoryUrl: 'https://github.com/huaxk/cdktf-provider-cdk8s.git',
 
-  deps: ['yaml@1.10.2'],
+  bundledDeps: ['yaml@1.10.2'],
   peerDeps: ['cdk8s@>=2.1.6', '@cdktf/provider-kubernetes@>=0.6.0'],
   devDeps: ['cdk8s-cli'],
   description:

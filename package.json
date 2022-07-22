@@ -73,6 +73,9 @@
   "dependencies": {
     "yaml": "1.10.2"
   },
+  "bundledDependencies": [
+    "yaml"
+  ],
   "keywords": [
     "cdk",
     "cdktf"
