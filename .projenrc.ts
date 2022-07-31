@@ -33,4 +33,26 @@ const importTask = project.addTask('import', {
 });
 project.testTask.prependSpawn(importTask);
 
+project.release?.publisher.publishToNpm({
+  prePublishSteps: [
+    {
+      name: 'Prepare Repository',
+      run: 'mv dist .repo',
+    },
+    {
+      name: 'Install Dependencies',
+      run: 'cd .repo && npm i --frozen-lockfile',
+    },
+    {
+      name: 'Create js artifact',
+      run: 'cd .repo && npx projen package:js',
+    },
+    {
+      name: 'Collect js Artifact',
+      run: 'mv .repo/dist dist',
+    },
+  ],
+  registry: 'registry.npmjs.org',
+});
+
 project.synth();
