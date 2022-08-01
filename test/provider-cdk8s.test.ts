@@ -4,6 +4,32 @@ import { CDK8sProvider } from '../src';
 import { KubeDeployment, KubeNamespace } from './imports/k8s';
 
 describe('CDK8sProvider', () => {
+  test('No YAML synthesises into CDKTF plan', () => {
+    expect(
+      Testing.synthScope((scope) => {
+        const cdk8sApp = new App();
+        new CDK8sProvider(scope, 'cdk8s-provider', { cdk8sApp });
+      })).
+      toMatchInlineSnapshot(`
+"{
+  \\"provider\\": {
+    \\"kubernetes\\": [
+      {
+      }
+    ]
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"kubernetes\\": {
+        \\"source\\": \\"kubernetes\\",
+        \\"version\\": \\"~> 2.0\\"
+      }
+    }
+  }
+}"
+`);
+  });
+
   test('synthesises YAML into CDKTF plan', () => {
     expect(
       Testing.synthScope((scope) => {
@@ -14,7 +40,6 @@ describe('CDK8sProvider', () => {
           spec: {
             replicas: 1,
             selector: { matchLabels: label },
-
 
             template: {
               metadata: { labels: label },
@@ -31,11 +56,9 @@ describe('CDK8sProvider', () => {
           },
         });
 
-
         new CDK8sProvider(scope, 'cdk8s-provider', { cdk8sApp });
-
-      })).
-      toMatchInlineSnapshot(`
+      }),
+    ).toMatchInlineSnapshot(`
 "{
   \\"provider\\": {
     \\"kubernetes\\": [
@@ -107,7 +130,6 @@ describe('CDK8sProvider', () => {
             replicas: 1,
             selector: { matchLabels: label },
 
-
             template: {
               metadata: { labels: label },
               spec: {
@@ -123,18 +145,14 @@ describe('CDK8sProvider', () => {
           },
         });
 
-
         new KubeNamespace(chart, 'ns', { metadata: { name: 'my-namespace' } });
-
 
         new KubeDeployment(chart, 'deployment2', {
           metadata: { namespace: 'my-namespace' },
 
-
           spec: {
             replicas: 1,
             selector: { matchLabels: label },
-
 
             template: {
               metadata: { labels: label },
@@ -151,11 +169,9 @@ describe('CDK8sProvider', () => {
           },
         });
 
-
         new CDK8sProvider(scope, 'cdk8s-provider', { cdk8sApp });
-
-      })).
-      toMatchInlineSnapshot(`
+      }),
+    ).toMatchInlineSnapshot(`
 "{
   \\"provider\\": {
     \\"kubernetes\\": [
@@ -274,7 +290,6 @@ describe('CDK8sProvider', () => {
             replicas: 1,
             selector: { matchLabels: label },
 
-
             template: {
               metadata: { labels: label },
               spec: {
@@ -282,7 +297,7 @@ describe('CDK8sProvider', () => {
                   {
                     name: 'hello-kubernetes',
                     image:
-            'pau${var.notTerraformJustLooksLikeIt}lbouwer/hello-kubernetes:1.7',
+                      'pau${var.notTerraformJustLooksLikeIt}lbouwer/hello-kubernetes:1.7',
                     ports: [{ containerPort: 8080 }],
                   },
                 ],
@@ -291,11 +306,9 @@ describe('CDK8sProvider', () => {
           },
         });
 
-
         new CDK8sProvider(scope, 'cdk8s-provider', { cdk8sApp });
-
-      })).
-      toMatchInlineSnapshot(`
+      }),
+    ).toMatchInlineSnapshot(`
 "{
   \\"provider\\": {
     \\"kubernetes\\": [

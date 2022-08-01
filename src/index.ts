@@ -27,6 +27,7 @@ export class CDK8sProvider extends KubernetesProvider {
 
         yamlmanifests.forEach((yamlManifest) => {
           const jsonManifest = yamlManifest.toJSON();
+          if (!jsonManifest) return;
           const type = `${jsonManifest.apiVersion}-${jsonManifest.kind}`;
           const namespace = jsonManifest.metadata.name || 'default';
           const uniqueId = `${
